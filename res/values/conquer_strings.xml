@@ -145,4 +145,9 @@
    <string name="volume_panel_compact_val">co.potatoproject.plugin.volume.compact</string>
    <string name="volume_panel_oreo_val">co.potatoproject.plugin.volume.oreo</string>
    <string name="volume_panel_tiled_val">co.potatoproject.plugin.volume.tiled</string>
+
+    <!-- Volume button music control -->
+    <string name="volume_button_music_control_title">Playback control</string>
+    <string name="volume_button_music_control_summary">When the screen is off, long-pressing volume keys will skip music tracks</string>
+
 </resources>
