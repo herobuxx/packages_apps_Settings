@@ -243,4 +243,8 @@ public class Settings extends SettingsActivity {
      */
     public static class MediaControlsSettingsActivity extends SettingsActivity {}
 
+    /**
+     * Conquer Extras
+     */
+    public static class GlobalActionsSettingsActivity extends SettingsActivity { /* empty */ }
 }
