@@ -150,6 +150,13 @@
         android:title="@string/enable_blurs_on_windows_title"
         android:summary="@string/enable_blurs_on_windows_summary" />
 
+    <!-- lockscreen charging -->
+    <com.conquer.settings.preference.SystemSettingSwitchPreference
+        android:key="lockscreen_battery_info"
+        android:title="@string/lockscreen_battery_info_title"
+        android:summary="@string/lockscreen_battery_info_summary"
+        android:defaultValue="true" />
+
     <ListPreference
         android:key="theme"
         android:title="@string/device_theme"
