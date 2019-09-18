@@ -55,6 +55,9 @@ import com.android.settingslib.utils.PowerUtil;
 import com.android.settingslib.utils.StringUtil;
 import com.android.settingslib.widget.LayoutPreference;
 
+import com.android.settings.widget.UsageView;
+
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -123,6 +126,13 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
                     mBatteryHeaderPreferenceController.updateHeaderPreference(batteryInfo);
                     mBatteryInfo = batteryInfo;
                     updateLastFullChargePreference();
+                    Handler h = new Handler();
+                        h.postDelayed(() -> {
+                            UsageView usageView = (UsageView) mBatteryLayoutPref.findViewById(R.id.battery_usage);
+                            usageView.findViewById(R.id.label_group).setAlpha(.7f);
+                            mBatteryInfo.bindHistory(usageView);
+                        }, 300);
+
                 }
 
                 @Override
