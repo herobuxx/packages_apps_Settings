@@ -21,6 +21,14 @@
     android:title="@string/firmware_version"
     settings:keywords="@string/keywords_android_version">
 
+    <!-- ConquerOS version -->
+    <Preference
+        settings:key="conqueros_version"
+        settings:title="@string/conqueros_version_title"
+        settings:summary="@string/conqueros_version_summary"
+        settings:icon="@drawable/ic_homepage_system_dashboard"
+        settings:fragment="com.android.settings.deviceinfo.conqueros.ConquerOSVersionSettings"/>
+
     <!-- Android version -->
     <Preference
         android:key="os_firmware_version"
@@ -37,13 +45,13 @@
         settings:enableCopying="true"
         settings:controller="com.android.settings.deviceinfo.firmwareversion.SecurityPatchLevelPreferenceController"/>
 
-    <!-- Mainline module version -->
+<!-- Mainline module version
     <Preference
         android:key="module_version"
         android:title="@string/module_version"
         android:summary="@string/summary_placeholder"
         settings:enableCopying="true"
-        settings:controller="com.android.settings.deviceinfo.firmwareversion.MainlineModuleVersionPreferenceController"/>
+        settings:controller="com.android.settings.deviceinfo.firmwareversion.MainlineModuleVersionPreferenceController"/> -->
 
     <!-- Baseband -->
     <Preference
