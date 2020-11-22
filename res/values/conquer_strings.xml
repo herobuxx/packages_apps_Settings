@@ -221,4 +221,7 @@
     <string name="themer_dashboard_title">Theme customizer</string>
     <string name="themer_dashboard_summary">Accent color, font, lockscreen clock</string>
 
+    <!-- Refresh rate -->
+    <string name="refresh_rate_title">Screen refresh rate</string>
+
 </resources>
