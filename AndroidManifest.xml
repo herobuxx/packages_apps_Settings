@@ -3483,6 +3483,19 @@
                 android:value="com.conquer.settings.GlobalActionsSettings" />
         </activity>
 
+        <!-- ConquerOS Features -->
+        <activity android:name=".Settings$FeaturesActivity"
+            android:label="@string/features_dashboard_title"
+            android:icon="@drawable/ic_homepage_conquer_features"
+            android:parentActivityName="com.android.settings">
+            <intent-filter android:priority="31">
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.android.settings.SHORTCUT" />
+            </intent-filter>
+            <meta-data android:name="com.android.settings.FRAGMENT_CLASS"
+                android:value="com.conquer.settings.ControlPanel" />
+        </activity>
+
         <!-- This is the longest AndroidManifest.xml ever. -->
     </application>
 </manifest>
