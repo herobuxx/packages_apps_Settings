@@ -20,13 +20,14 @@ import android.content.Context;
 import android.hardware.face.FaceManager;
 import android.hardware.face.FaceManager.GetFeatureCallback;
 import android.hardware.face.FaceManager.SetFeatureCallback;
-import android.os.SystemProperties;
 import android.provider.Settings;
 
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreference;
 
 import com.android.settings.Utils;
+
+import com.android.settings.custom.biometrics.FaceUtils;
 
 /**
  * Preference controller that manages the ability to use face authentication with/without
@@ -124,10 +125,6 @@ public class FaceSettingsAttentionPreferenceController extends FaceSettingsPrefe
 
     @Override
     public int getAvailabilityStatus() {
-        boolean senseEnabled = SystemProperties.getBoolean("ro.face.sense_service", false);
-        if (senseEnabled) {
-            return UNSUPPORTED_ON_DEVICE;
-        }
-        return AVAILABLE;
+        return FaceUtils.isFaceUnlockSupported() ? UNSUPPORTED_ON_DEVICE : AVAILABLE;
     }
 }
