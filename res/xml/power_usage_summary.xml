@@ -40,6 +40,12 @@
         settings:controller="com.android.settings.fuelgauge.BatterySaverController" />
 
     <Preference
+        android:fragment="com.conquer.settings.fragments.AggressiveBattery"
+        android:key="battery_aggressive"
+        android:title="@string/aggressive_battery_title"
+        android:summary="@string/aggressive_battery_summary" />
+
+    <Preference
         android:fragment="com.android.settings.fuelgauge.SmartBatterySettings"
         android:key="smart_battery_manager"
         android:title="@string/smart_battery_manager_title"
