@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright (c) 2019 The ConquerOS Project
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+        http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+-->
+<resources>
+
+    <!-- Dashboard/homepage icon colors colors -->
+    <color name="homepage_network_background">#99C2FF</color>
+    <color name="homepage_connected_device_background">#5EFFC1</color>
+    <color name="homepage_app_and_notification_background">#FF7AF4</color>
+    <color name="homepage_battery_background">#70FF99</color>
+    <color name="homepage_display_background">#FFEE70</color>
+    <color name="homepage_sound_background">#BE7DFF</color>
+    <color name="homepage_storage_background">#FF9CD1</color>
+    <color name="homepage_security_background">#45FF6D</color>
+    <color name="homepage_accounts_background">#69FF78</color>
+    <color name="homepage_accessibility_background">#907DFF</color>
+    <color name="homepage_system_background">#9E9E9E</color>
+    <color name="homepage_support_background">#2B63FF</color>
+    <color name="homepage_generic_icon_background">#FF87E1</color>
+    <color name="homepage_location_background">#7D9DFF</color>
+    <color name="homepage_about_background">#FF7888</color>
+    <color name="homepage_privacy_background">#F082FF</color>
+    <color name="homepage_conquer_background">#7DB5FF</color>
+
+</resources>
