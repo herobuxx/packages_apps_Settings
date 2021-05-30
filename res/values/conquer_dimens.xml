@@ -23,4 +23,6 @@
     <!-- Action bar height -->
     <dimen name="conquer_settings_bar_height">190dp</dimen>
 
+    <dimen name="custom_card_pref_radius">16dp</dimen>
+
 </resources>

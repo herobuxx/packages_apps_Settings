@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2020 The ConquerOS Project
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+     
+          http://www.apache.org/licenses/LICENSE-2.0
+          
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- ConquerOS Version -->
+    <string name="conqueros_version_title">Versi ConquerOS</string>
+    <string name="conqueros_version_summary">Tampilkan info lanjut tentang ConquerOS</string>
+    <string name="conqueros_version_default">Tidak diketahui</string>
+    <string name="conqueros_build_number_title">Nomor build ConquerOS</string>
+    <string name="conqueros_build_number_default">Tidak diketahui</string>
+    <string name="caf_tag_title">Tag revisi CAF</string>
+    <string name="caf_tag_default">Tidak diketahui</string>
+    <string name="keywords_conqueros_version">ConquerOS version, versi, conquer, caf, caf tag</string>
+
+    <!-- Three-fingers-swipe to screenshot -->
+    <string name="three_finger_gesture">Usap untuk screenshot</string>
+    <string name="three_finger_gesture_summary">Usap tiga hari kebawah unbtuk mengambil screenshot</string>
+
+    <!-- ConquerOS Features -->
+    <string name="features_dashboard_title">Fitur</string>
+    <string name="features_dashboard_summary">Personalisasi fitur ekstra di perangkat anda</string>
+
+    <!-- ConquerOS About Phone -->
+    <string name="keywords_top_level_device_info">about phone,conquer,conqueros, device name, tentang, nama perangkat</string>
+    <string name="more_device_info">Info perangkat</string>
+    <string name="more_device_info_summary">Tampilkan info lanjut tentang perangkat</string>
+
+    <!-- About Phone Header -->
+    <string name="conquer_device_title">Perangkat</string>
+    <string name="conquer_memory_storage_title">Memori</string>
+    <string name="conquer_battery_size_title">Kapasitas Baterai</string>
+    <string name="conquer_screen_res_title">Resolusi Layar</string>
+
+</resources>
