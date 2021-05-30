@@ -25,7 +25,7 @@
         android:summary="@string/summary_placeholder"
         android:icon="@drawable/ic_homepage_about"
         android:order="-125"
-        android:fragment="com.android.settings.deviceinfo.aboutphone.MyDeviceInfoFragment"
+        android:fragment="com.android.settings.deviceinfo.aboutphone.TopLevelAboutDevice"
         settings:controller="com.android.settings.deviceinfo.aboutphone.TopLevelAboutDevicePreferenceController"/>
 
     <Preference android:layout="@layout/divider" android:order="-120"/>

@@ -220,4 +220,15 @@
     <!-- Volume link notification -->
     <string name="volume_link_notification_title">Link ring &amp; notification volumes</string>
 
+    <!-- ConquerOS About Phone -->
+    <string name="keywords_top_level_device_info">about phone, conquer, conqueros, device name</string>
+    <string name="more_device_info">Device info</string>
+    <string name="more_device_info_summary">Show more info of the device</string>
+
+    <!-- About Phone Header -->
+    <string name="conquer_device_title">Device</string>
+    <string name="conquer_memory_storage_title">Memory</string>
+    <string name="conquer_battery_size_title">Battery Capacity</string>
+    <string name="conquer_screen_res_title">Screen Resolution</string>
+
 </resources>

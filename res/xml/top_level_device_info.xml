@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (C) 201-2021 The ConquerOS Project
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:settings="http://schemas.android.com/apk/res-auto"
+    android:title=" "
+    settings:keywords="@string/keywords_top_level_device_info">
+
+    <!-- Title Header -->
+    <Preference
+        android:layout="@layout/about_phone_title_header"
+        android:selectable="false"/>
+
+    <!-- Abput phone info header -->
+    <com.android.settingslib.widget.LayoutPreference
+        android:key="about_phone_info_header"
+        android:layout="@layout/about_phone_info_header"
+        android:selectable="false" />
+
+    <!-- Device Name -->
+    <com.android.settings.widget.ValidatedEditTextPreference
+        android:key="device_name"
+        android:title="@string/my_device_info_device_name_preference_title"
+        android:summary="@string/summary_placeholder"
+        android:layout="@layout/custom_card_pref"
+        settings:icon="@drawable/ic_about_device_name"
+        settings:controller="com.android.settings.deviceinfo.DeviceNamePreferenceController"
+        settings:enableCopying="true"/>
+
+    <!-- ConquerOS version -->
+    <Preference
+        settings:key="conqueros_version"
+        settings:title="@string/conqueros_version_title"
+        settings:summary="@string/conqueros_version_summary"
+        settings:icon="@drawable/ic_about_conquer_version"
+        settings:layout="@layout/custom_card_pref"
+        settings:fragment="com.android.settings.deviceinfo.conqueros.ConquerOSVersionSettings"/>
+
+    <!-- Android version -->
+    <Preference
+        android:key="firmware_version"
+        android:title="@string/firmware_version"
+        android:summary="@string/summary_placeholder"
+        android:fragment="com.android.settings.deviceinfo.firmwareversion.FirmwareVersionSettings"
+        settings:icon="@drawable/ic_about_android_version"
+        android:layout="@layout/custom_card_pref"
+        settings:controller="com.android.settings.deviceinfo.firmwareversion.FirmwareVersionPreferenceController"/>
+
+    <!--- Device Info -->
+    <Preference
+        android:key="top_level_about_device"
+        android:title="@string/more_device_info"
+        android:summary="@string/more_device_info_summary"
+        settings:icon="@drawable/ic_homepage_system_dashboard"
+        android:fragment="com.android.settings.deviceinfo.aboutphone.MyDeviceInfoFragment"
+        android:layout="@layout/custom_card_pref"/>
+
+</PreferenceScreen>
