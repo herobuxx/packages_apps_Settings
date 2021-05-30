@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Android Open Source Project
+ * Copyright (C) 2019-2021 The ConquerOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import com.android.settings.Utils;
 import com.android.settings.dashboard.DashboardFragment;
 import com.android.settings.deviceinfo.BluetoothAddressPreferenceController;
 import com.android.settings.deviceinfo.BuildNumberPreferenceController;
-import com.android.settings.deviceinfo.DeviceNamePreferenceController;
 import com.android.settings.deviceinfo.FccEquipmentIdPreferenceController;
 import com.android.settings.deviceinfo.FeedbackPreferenceController;
 import com.android.settings.deviceinfo.IpAddressPreferenceController;
@@ -54,8 +53,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SearchIndexable
-public class MyDeviceInfoFragment extends DashboardFragment
-        implements DeviceNamePreferenceController.DeviceNamePreferenceHost {
+public class MyDeviceInfoFragment extends DashboardFragment {
 
     private static final String LOG_TAG = "MyDeviceInfoFragment";
     private static final String KEY_MY_DEVICE_INFO_HEADER = "my_device_info_header";
@@ -76,7 +74,6 @@ public class MyDeviceInfoFragment extends DashboardFragment
     public void onAttach(Context context) {
         super.onAttach(context);
         use(ImeiInfoPreferenceController.class).setHost(this /* parent */);
-        use(DeviceNamePreferenceController.class).setHost(this /* parent */);
         mBuildNumberPreferenceController = use(BuildNumberPreferenceController.class);
         mBuildNumberPreferenceController.setHost(this /* parent */);
     }
@@ -160,16 +157,6 @@ public class MyDeviceInfoFragment extends DashboardFragment
         }
 
         controller.done(context, true /* rebindActions */);
-    }
-
-    @Override
-    public void showDeviceNameWarningDialog(String deviceName) {
-        DeviceNameWarningDialog.show(this);
-    }
-
-    public void onSetDeviceNameConfirm(boolean confirm) {
-        final DeviceNamePreferenceController controller = use(DeviceNamePreferenceController.class);
-        controller.updateDeviceName(confirm);
     }
 
     /**
