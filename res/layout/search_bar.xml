@@ -23,6 +23,29 @@
     app:layout_scrollFlags="scroll|exitUntilCollapsed"
     app:toolbarId="@+id/search_action_bar_container">
 
+    <Space
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_weight="1"
+	app:cardCornerRadius="21dp"
+        android:layout_marginTop="68dp"
+        android:layout_marginEnd="18dp"
+        app:cardElevation="1dp">
+
+        <ImageView
+            android:id="@+id/account_avatar"
+            android:layout_width="@dimen/search_bar_avatar_width"
+            android:layout_height="@dimen/search_bar_avatar_width"
+            android:contentDescription="@string/search_bar_account_avatar_content_description"
+            android:scaleType="centerCrop" />
+    </com.google.android.material.card.MaterialCardView>
+		
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,8 +54,8 @@
         android:orientation="horizontal"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:paddingTop="32dp"
-        android:paddingBottom="26dp">
+        android:paddingTop="108dp"
+        android:paddingBottom="12dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -42,24 +65,6 @@
             android:textSize="36sp"
             android:fontFamily="google-sans-medium" />
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="21dp"
-            app:cardElevation="1dp">
-
-            <ImageView
-                android:id="@+id/account_avatar"
-                android:layout_width="@dimen/search_bar_avatar_width"
-                android:layout_height="@dimen/search_bar_avatar_width"
-                android:contentDescription="@string/search_bar_account_avatar_content_description"
-                android:scaleType="centerCrop" />
-        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
     <androidx.appcompat.widget.Toolbar
