@@ -154,6 +154,14 @@
         android:fragment="com.conquer.settings.ControlPanel"/>
 
     <Preference
+        android:key="top_level_themer"
+        android:title="@string/themer_dashboard_title"
+        android:summary="@string/themer_dashboard_summary"
+        android:icon="@drawable/ic_homepage_conquer_themer"
+        android:order="-29"
+        android:fragment="com.conquer.settings.themer.Customizer"/>
+
+    <Preference
         android:key="top_level_system"
         android:title="@string/header_category_system"
         android:summary="@string/system_dashboard_summary"

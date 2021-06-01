@@ -217,4 +217,8 @@
     <string name="conquer_battery_size_title">Battery Capacity</string>
     <string name="conquer_screen_res_title">Screen Resolution</string>
 
+    <!-- ConquerOS Themer -->
+    <string name="themer_dashboard_title">Theme customizer</string>
+    <string name="themer_dashboard_summary">Accent color, font, lockscreen clock</string>
+
 </resources>
