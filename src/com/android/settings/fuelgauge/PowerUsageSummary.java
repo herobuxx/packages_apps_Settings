@@ -18,37 +18,27 @@ package com.android.settings.fuelgauge;
 
 import static com.android.settings.fuelgauge.BatteryBroadcastReceiver.BatteryUpdateType;
 
-import android.animation.Animator;
-import android.animation.ValueAnimator;
 import android.app.settings.SettingsEnums;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.ContentObserver;
-import android.icu.text.NumberFormat;
 import android.net.Uri;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PowerManager;
-import android.os.SystemClock;
 import android.provider.Settings.Global;
 import android.text.format.Formatter;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnLongClickListener;
-import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import androidx.annotation.VisibleForTesting;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.app.LoaderManager.LoaderCallbacks;
 import androidx.loader.content.Loader;
-import androidx.preference.Preference;
 
 import com.android.settings.R;
 import com.android.settings.SettingsActivity;
@@ -78,12 +68,7 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
     static final String TAG = "PowerUsageSummary";
 
     private static final String KEY_BATTERY_HEADER = "battery_header";
-    private static final int BATTERY_ANIMATION_DURATION_MS_PER_LEVEL = 30;
 
-    @VisibleForTesting
-    static final String ARG_BATTERY_LEVEL = "key_battery_level";
-
-    private static final String KEY_BATTERY_TEMP = "battery_temperature";
     private static final String KEY_SCREEN_USAGE = "screen_usage";
     private static final String KEY_TIME_SINCE_LAST_FULL_CHARGE = "last_full_charge";
 
@@ -97,11 +82,7 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
     public static final int DEBUG_INFO_LOADER = 3;
 
     @VisibleForTesting
-    int mBatteryLevel;
-    @VisibleForTesting
     PowerGaugePreference mScreenUsagePref;
-    @VisibleForTesting
-    PowerGaugePreference mBatteryTempPref;
     @VisibleForTesting
     PowerGaugePreference mLastFullChargePref;
     @VisibleForTesting
@@ -114,13 +95,11 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
     BatteryInfo mBatteryInfo;
 
     @VisibleForTesting
-    PowerManager mPowerManager;
+    BatteryHeaderPreferenceController mBatteryHeaderPreferenceController;
     @VisibleForTesting
     boolean mNeedUpdateBatteryTip;
     @VisibleForTesting
     BatteryTipPreferenceController mBatteryTipPreferenceController;
-    @VisibleForTesting
-    ValueAnimator animator;
 
     @VisibleForTesting
     final ContentObserver mSettingsObserver = new ContentObserver(new Handler()) {
@@ -141,7 +120,7 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
 
                 @Override
                 public void onLoadFinished(Loader<BatteryInfo> loader, BatteryInfo batteryInfo) {
-                    updateHeaderPreference(batteryInfo);
+                    mBatteryHeaderPreferenceController.updateHeaderPreference(batteryInfo);
                     mBatteryInfo = batteryInfo;
                     updateLastFullChargePreference();
                 }
@@ -173,10 +152,12 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
     protected void updateViews(List<BatteryInfo> batteryInfos) {
         final BatteryMeterView batteryView = mBatteryLayoutPref
                 .findViewById(R.id.battery_header_icon);
+        final TextView percentRemaining =
+                mBatteryLayoutPref.findViewById(R.id.battery_percent);
         final TextView summary1 = mBatteryLayoutPref.findViewById(R.id.summary1);
         BatteryInfo oldInfo = batteryInfos.get(0);
         BatteryInfo newInfo = batteryInfos.get(1);
-        batteryView.setText(Utils.formatPercentage(oldInfo.batteryLevel));
+        percentRemaining.setText(Utils.formatPercentage(oldInfo.batteryLevel));
 
         // set the text to the old estimate (copied from battery info). Note that this
         // can sometimes say 0 time remaining because battery stats requires the phone
@@ -218,7 +199,10 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
         super.onAttach(context);
         final SettingsActivity activity = (SettingsActivity) getActivity();
 
-        mPowerManager = context.getSystemService(PowerManager.class);
+        mBatteryHeaderPreferenceController = use(BatteryHeaderPreferenceController.class);
+        mBatteryHeaderPreferenceController.setActivity(activity);
+        mBatteryHeaderPreferenceController.setFragment(this);
+        mBatteryHeaderPreferenceController.setLifecycle(getSettingsLifecycle());
 
         mBatteryTipPreferenceController = use(BatteryTipPreferenceController.class);
         mBatteryTipPreferenceController.setActivity(activity);
@@ -234,11 +218,7 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
         initFeatureProvider();
         mBatteryLayoutPref = (LayoutPreference) findPreference(KEY_BATTERY_HEADER);
 
-        mBatteryLevel = getContext().getResources().getInteger(
-                com.android.internal.R.integer.config_criticalBatteryWarningLevel) + 1;
-
         mScreenUsagePref = (PowerGaugePreference) findPreference(KEY_SCREEN_USAGE);
-        mBatteryTempPref = (PowerGaugePreference) findPreference(KEY_BATTERY_TEMP);
         mLastFullChargePref = (PowerGaugePreference) findPreference(
                 KEY_TIME_SINCE_LAST_FULL_CHARGE);
         mBatteryUtils = BatteryUtils.getInstance(getContext());
@@ -251,17 +231,8 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            mBatteryLevel = savedInstanceState.getInt(ARG_BATTERY_LEVEL);
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-        initHeaderPreference();
         getContentResolver().registerContentObserver(
                 Global.getUriFor(Global.BATTERY_ESTIMATES_LAST_UPDATE_TIME),
                 false,
@@ -271,21 +242,7 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
     @Override
     public void onPause() {
         getContentResolver().unregisterContentObserver(mSettingsObserver);
-        detachBatteryHeaderAnimationIfNecessary();
         super.onPause();
-    }
-
-    @Override
-    public boolean onPreferenceTreeClick(Preference preference) {
-        if (KEY_BATTERY_HEADER.equals(preference.getKey())) {
-            new SubSettingLauncher(getContext())
-                        .setDestination(PowerUsageAdvanced.class.getName())
-                        .setSourceMetricsCategory(getMetricsCategory())
-                        .setTitleRes(R.string.advanced_battery_title)
-                        .launch();
-            return true;
-        }
-        return super.onPreferenceTreeClick(preference);
     }
 
     @Override
@@ -376,14 +333,6 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
         updateLastFullChargePreference();
         mScreenUsagePref.setSummary(StringUtil.formatElapsedTime(getContext(),
                 mBatteryUtils.calculateScreenUsageTime(mStatsHelper), false));
-        mBatteryTempPref.setSummary(BatteryInfo.batteryTemp / 10 + " °C");
-
-        final long elapsedRealtimeUs = SystemClock.elapsedRealtime() * 1000;
-        Intent batteryBroadcast = context.registerReceiver(null,
-                new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-        BatteryInfo batteryInfo = BatteryInfo.getBatteryInfoOld(context, batteryBroadcast,
-                mStatsHelper.getStats(), elapsedRealtimeUs, false);
-        updateHeaderPreference(batteryInfo);
     }
 
     @VisibleForTesting
@@ -426,72 +375,6 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
     }
 
     @VisibleForTesting
-    void updateHeaderPreference(BatteryInfo info) {
-        final Context context = getContext();
-        if (context == null) {
-            return;
-        }
-        final BatteryMeterView batteryView = (BatteryMeterView) mBatteryLayoutPref
-                .findViewById(R.id.battery_header_icon);
-        final TextView timeText = (TextView) mBatteryLayoutPref.findViewById(R.id.battery_percent);
-        final TextView summary1 = (TextView) mBatteryLayoutPref.findViewById(R.id.summary1);
-        if (info.remainingLabel == null ) {
-            summary1.setText(info.statusLabel);
-        } else {
-            summary1.setText(info.remainingLabel);
-        }
-        batteryView.setCharging(!info.discharging);
-        batteryView.setPowerSave(mPowerManager.isPowerSaveMode());
-        startBatteryHeaderAnimationIfNecessary(batteryView, timeText, mBatteryLevel,
-                info.batteryLevel);
-    }
-
-    @VisibleForTesting
-    void initHeaderPreference() {
-        if (getContext() != null) {
-            final BatteryMeterView batteryView = (BatteryMeterView) mBatteryLayoutPref
-                  .findViewById(R.id.battery_header_icon);
-            final TextView timeText = (TextView) mBatteryLayoutPref.findViewById(R.id.battery_percent);
-
-            batteryView.setBatteryLevel(mBatteryLevel);
-            batteryView.setPowerSave(mPowerManager.isPowerSaveMode());
-            batteryView.setText(formatBatteryPercentageText(mBatteryLevel));
-        }
-    }
-
-    @VisibleForTesting
-    void startBatteryHeaderAnimationIfNecessary(BatteryMeterView batteryView, TextView timeTextView,
-                int prevLevel, int currentLevel) {
-        if (getContext() != null) {
-        mBatteryLevel = currentLevel;
-        final int diff = Math.abs(prevLevel - currentLevel);
-        if (diff != 0) {
-            animator = ValueAnimator.ofInt(prevLevel, currentLevel);
-            animator.setDuration(BATTERY_ANIMATION_DURATION_MS_PER_LEVEL * diff);
-            animator.setInterpolator(AnimationUtils.loadInterpolator(getContext(),
-                    android.R.interpolator.fast_out_slow_in));
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    final Integer level = (Integer) animation.getAnimatedValue();
-                    batteryView.setBatteryLevel(level);
-                    batteryView.setPowerSave(mPowerManager.isPowerSaveMode());
-                    batteryView.setText(formatBatteryPercentageText(level));
-                }
-            });
-            animator.start();
-        }
-      }
-    }
-
-    @VisibleForTesting
-    void detachBatteryHeaderAnimationIfNecessary() {
-        if (animator.isRunning()) {
-            animator.pause();
-        }
-    }
-
-    @VisibleForTesting
     void initFeatureProvider() {
         final Context context = getContext();
         mPowerFeatureProvider = FeatureFactory.getFactory(context)
@@ -529,6 +412,15 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
     }
 
     @Override
+    protected void restartBatteryStatsLoader(@BatteryUpdateType int refreshType) {
+        super.restartBatteryStatsLoader(refreshType);
+        // Update battery header if battery is present.
+        if (mIsBatteryPresent) {
+            mBatteryHeaderPreferenceController.quickUpdateHeaderPreference();
+        }
+    }
+
+    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mBatteryTipPreferenceController.saveInstanceState(outState);
@@ -537,16 +429,6 @@ public class PowerUsageSummary extends PowerUsageBase implements OnLongClickList
     @Override
     public void onBatteryTipHandled(BatteryTip batteryTip) {
         restartBatteryTipLoader();
-    }
-
-    private CharSequence formatBatteryPercentageText(int batteryLevel) {
-        try {
-            return TextUtils.expandTemplate(getContext().getText(R.string.battery_header_title_alternate),
-                  NumberFormat.getIntegerInstance().format(batteryLevel));
-        }
-        catch (Exception e) {
-            return null;
-        }
     }
 
     public static final BaseSearchIndexProvider SEARCH_INDEX_DATA_PROVIDER =
