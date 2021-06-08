@@ -24,8 +24,9 @@
     <com.android.settingslib.widget.LayoutPreference
         android:key="battery_header"
         android:title="@string/summary_placeholder"
-        android:selectable="true"
-        android:layout="@layout/battery_header" />
+        android:selectable="false"
+        android:layout="@layout/battery_header"
+        settings:controller="com.android.settings.fuelgauge.BatteryHeaderPreferenceController" />
 
     <com.android.settings.widget.CardPreference
         android:key="battery_tip"
@@ -66,11 +67,6 @@
     <com.android.settings.fuelgauge.PowerGaugePreference
         android:key="screen_usage"
         android:title="@string/device_screen_usage"
-        android:selectable="false" />
-
-    <com.android.settings.fuelgauge.PowerGaugePreference
-        android:key="battery_temperature"
-        android:title="@string/battery_temperature"
         android:selectable="false" />
 
     <com.android.settingslib.widget.FooterPreference
