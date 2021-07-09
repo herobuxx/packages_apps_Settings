@@ -46,6 +46,25 @@
             android:scaleType="centerCrop" />
     </com.google.android.material.card.MaterialCardView>
 		
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_weight="1"
+        app:cardCornerRadius="21dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="34dp"
+        app:cardElevation="1dp">
+
+        <ImageButton
+            android:id="@+id/search_action_launch"
+            android:layout_width="@dimen/search_bar_avatar_width"
+            android:layout_height="@dimen/search_bar_avatar_width"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:tint="?android:attr/textColorPrimary"
+            android:src="@drawable/ic_homepage_search" />
+    </com.google.android.material.card.MaterialCardView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,38 +82,7 @@
             android:text="@string/settings_label"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="36sp"
-            android:fontFamily="google-sans-medium" />
+            android:fontFamily="google-sans" />
 
     </LinearLayout>
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/search_action_bar_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/search_bar"
-            style="@style/SearchBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Toolbar
-                android:id="@+id/search_action_bar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/search_bar_height"
-                android:background="@drawable/search_bar_selected_background"
-                android:contentInsetStartWithNavigation="@dimen/search_bar_content_inset"
-                android:navigationIcon="@drawable/ic_homepage_search">
-
-                <TextView
-                    android:id="@+id/search_action_bar_title"
-                    style="@style/TextAppearance.SearchBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/search_menu" />
-            </Toolbar>
-
-        </com.google.android.material.card.MaterialCardView>
-    </androidx.appcompat.widget.Toolbar>
 </com.google.android.material.appbar.CollapsingToolbarLayout>
